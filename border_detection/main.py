@@ -40,8 +40,9 @@ def get_canny_borders(img, threshold1, threshold2):
     gray_scale = ensure_gray(img)
     return apply_canny(gray_scale, threshold1, threshold2)
 
-def apply_gaussian_blur(img):
-    return cv2.GaussianBlur(img, (5, 5), 0)
+def apply_gaussian_blur(img, seed):
+    kernel_size = (seed // 20) * 2 + 1
+    return cv2.GaussianBlur(img, (kernel_size, kernel_size), 0)
 
 def auto_canny_threshold(img):
     v = np.median(img)
@@ -50,9 +51,10 @@ def auto_canny_threshold(img):
     upper_threshold = int(min(255, (1.0 + sigma) * v))
     return lower_threshold, upper_threshold
 
-def morph_operations(canny_img):
-    dilated = cv2.dilate(canny_img, None, iterations=1)
-    return cv2.erode(dilated, None, iterations=1)
+def morph_operations(canny_img, seed):
+    iterations = seed // 50
+    dilated = cv2.dilate(canny_img, None, iterations=iterations)
+    return cv2.erode(dilated, None, iterations=iterations)
 
 def create_mask(img, shape_type, shape_props, points):
     mask = np.zeros(img.shape[:2], dtype=np.uint8)
@@ -67,9 +69,9 @@ def create_mask(img, shape_type, shape_props, points):
         cv2.fillPoly(mask, [pts], 255)
     return mask
 
-def process_region(img, mask, threshold1, threshold2):
+def process_region(img, mask, threshold1, threshold2, seed):
     region = cv2.bitwise_and(img, img, mask=mask)
-    blurred_region = apply_gaussian_blur(region)
+    blurred_region = apply_gaussian_blur(region, seed)
     canny_region = get_canny_borders(blurred_region, threshold1, threshold2)
     return cv2.cvtColor(canny_region, cv2.COLOR_GRAY2BGR)
 
@@ -87,10 +89,10 @@ def process_image():
 
         if mode == "object":
             threshold1 = seed
-            threshold2 = seed * 3
+            threshold2 = seed * 2
         elif mode == "background":
-            threshold1 = seed * 2
-            threshold2 = seed * 6
+            threshold1 = int(seed * 1.5)
+            threshold2 = seed * 3
         else:
             return jsonify({"error": "Invalid mode. Use 'object' or 'background'."}), 400
 
@@ -101,15 +103,15 @@ def process_image():
             points = json.loads(request.form['points']) if 'points' in request.form and request.form['points'] else None
 
             mask = create_mask(img, shape_type, shape_props, points)
-            canny_region_colored = process_region(img, mask, threshold1, threshold2)
+            canny_region_colored = process_region(img, mask, threshold1, threshold2, seed)
 
             mask_colored = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR) if len(mask.shape) == 2 else mask
             processed_img = cv2.bitwise_and(processed_img, cv2.bitwise_not(mask_colored))
             processed_img = cv2.add(processed_img, canny_region_colored)
         else:
-            blurred_image = apply_gaussian_blur(processed_img)
+            blurred_image = apply_gaussian_blur(processed_img, seed)
             canny_image = get_canny_borders(blurred_image, threshold1, threshold2)
-            processed_img = morph_operations(canny_image)
+            processed_img = morph_operations(canny_image, seed)
 
         _, buffer = cv2.imencode('.jpg', processed_img)
         img_byte_arr = BytesIO(buffer)
