@@ -2,7 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import SelectedImage from "./SelectedImage";
 
-const ProcessedImages = ({ processedImages, setProcessedImages, selectedImage, setSelectedImage }) => {
+const ProcessedImages = ({
+  processedImages,
+  setProcessedImages,
+  selectedImage,
+  setSelectedImage,
+}) => {
   const handleThumbnailClick = (img) => {
     setSelectedImage(img);
   };
@@ -14,6 +19,14 @@ const ProcessedImages = ({ processedImages, setProcessedImages, selectedImage, s
 
   return (
     <div className="is-link" style={{ marginTop: "2rem" }}>
+      {/* Display selected full image */}
+      {selectedImage && (
+        <SelectedImage
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+          processedImages={processedImages}
+        />
+      )}
       <h3 className="title is-4">Processed Images</h3>
       <div className="columns is-multiline">
         {processedImages.length > 0 ? (
@@ -43,7 +56,7 @@ const ProcessedImages = ({ processedImages, setProcessedImages, selectedImage, s
                   maxWidth: "200px",
                   marginBottom: "1rem",
                   border: "1px solid #FFFFF",
-                  padding: "10px"
+                  padding: "10px",
                 }}
               >
                 <img
@@ -57,15 +70,6 @@ const ProcessedImages = ({ processedImages, setProcessedImages, selectedImage, s
           <p className="has-text-light">No processed images yet.</p>
         )}
       </div>
-
-      {/* Display selected full image */}
-      {selectedImage && (
-        <SelectedImage
-          selectedImage={selectedImage}
-          setSelectedImage={setSelectedImage}
-          processedImages={processedImages}
-        />
-      )}
     </div>
   );
 };
