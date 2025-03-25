@@ -1,42 +1,86 @@
 import os
-import cv2
-import torch
-import numpy as np
-from realesrgan import RealESRGAN
+import subprocess
+from tkinter import Tk, filedialog, messagebox
+from PIL import Image
+import sys
 
 
-def load_model():
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    model = RealESRGAN(device, scale=4)
-    model.load_weights('models/RealESRGAN_x4plus.pth')
-    return model
+def get_executable_path():
+    """Obtiene la ruta del ejecutable realesrgan-ncnn-vulkan.exe."""
+    if hasattr(sys, '_MEIPASS'):
+        # Ruta cuando se ejecuta como .exe
+        return os.path.join(sys._MEIPASS, 'tools', 'realesrgan-ncnn-vulkan.exe')
+    else:
+        # Ruta cuando se ejecuta como script
+        return os.path.join('tools', 'realesrgan-ncnn-vulkan.exe')
 
 
-def enhance_images(input_folder):
-    output_folder = os.path.join(input_folder, 'high_def')
+def convert_to_png(image_path):
+    """Convierte una imagen a formato PNG si no lo está."""
+    if not image_path.lower().endswith('.png'):
+        img = Image.open(image_path)
+        png_path = os.path.splitext(image_path)[0] + '.png'
+        img.save(png_path, 'PNG')
+        return png_path
+    return image_path
+
+
+def process_images(input_folder):
+    """Procesa todas las imágenes de una carpeta usando realesrgan-ncnn-vulkan.exe."""
+    # Ruta al ejecutable
+    exe_path = get_executable_path()
+    if not os.path.exists(exe_path):
+        messagebox.showerror("Error", f"No se encontró el ejecutable en: {exe_path}")
+        return
+
+    # Crear la carpeta de salida
+    output_folder = os.path.join(os.path.dirname(input_folder), 'high_quality_images')
     os.makedirs(output_folder, exist_ok=True)
 
-    model = load_model()
-
+    # Procesar cada imagen en la carpeta de entrada
     for file_name in os.listdir(input_folder):
-        if file_name.lower().endswith(('png', 'jpg', 'jpeg')):
-            img_path = os.path.join(input_folder, file_name)
-            img = cv2.imread(img_path)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            sr_img = model.enhance(img)
+        if file_name.lower().endswith(('png', 'jpg', 'jpeg', 'bmp', 'tiff')):
+            input_path = os.path.join(input_folder, file_name)
+            print(f"Procesando: {input_path}")
 
-            output_path = os.path.join(output_folder, file_name)
-            cv2.imwrite(output_path, cv2.cvtColor(sr_img, cv2.COLOR_RGB2BGR))
-            print(f'Imagen mejorada guardada en: {output_path}')
+            # Convertir a PNG si es necesario
+            input_path = convert_to_png(input_path)
+
+            # Nombre de la imagen de salida
+            output_path = os.path.join(output_folder, os.path.basename(input_path))
+
+            # Ejecutar el comando realesrgan-ncnn-vulkan.exe
+            command = [
+                exe_path,
+                '-i', input_path,
+                '-o', output_path,
+                '-n', 'realesrgan-x4plus',  # Modelo a usar
+                '-s', '4'  # Escalado fijo a 4
+            ]
+            try:
+                subprocess.run(command, check=True)
+                print(f"Imagen procesada guardada en: {output_path}")
+            except subprocess.CalledProcessError as e:
+                print(f"Error al procesar {input_path}: {e}")
+
+    messagebox.showinfo("Proceso completado", f"Las imágenes mejoradas se guardaron en:\n{output_folder}")
 
 
 def main():
-    input_folder = input('Ingrese la ruta de la carpeta con imágenes: ')
-    if os.path.isdir(input_folder):
-        enhance_images(input_folder)
-        print('Proceso completado.')
+    """Selecciona una carpeta y procesa las imágenes."""
+    # Crear una ventana de selección de carpeta usando tkinter
+    root = Tk()
+    root.withdraw()  # Ocultar la ventana principal de tkinter
+    root.attributes('-topmost', True)  # Asegurarse de que el diálogo esté en primer plano
+
+    input_folder = filedialog.askdirectory(title="Seleccione la carpeta con imágenes")
+    if input_folder:
+        if os.path.isdir(input_folder):
+            process_images(input_folder)
+        else:
+            messagebox.showerror("Error", "La carpeta seleccionada no es válida.")
     else:
-        print('Error: La carpeta ingresada no existe.')
+        messagebox.showinfo("Cancelado", "No se seleccionó ninguna carpeta.")
 
 
 if __name__ == '__main__':

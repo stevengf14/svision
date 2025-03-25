@@ -1,0 +1,15 @@
+# Execute this:
+pip install pyinstaller
+pyinstaller --onefile --noconsole --add-data "tools;tools" --add-data "models;models" enhance_images.py
+
+your .exe program will be in the folder dist
+(your path)\svision\image_modification\
+├── enhance_images.py
+├── dist\
+│   └── enhance_images.exe
+├── build\
+├── enhance_images.spec
+
+Ignoralo --> No logré hacerlo ejecutable, cada que ejecuta abre una terminal por cada imagen y da errores
+Lo mejor es correr el archivo enhance_images.py desde pycharm, luego seleccionas una carpeta donde estén las fotos que quieres
+mejorar, y se crea junto a esa carpeta una nueva con las fotos mejoradas. Tienes que seleccionar si o si una carpeta
