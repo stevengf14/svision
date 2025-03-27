@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Home from "./components/Home";
 import BorderDetection from "./components/BorderDetection/BorderDetection";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import VideoObjetRecognition from "./components/VideoObjectRecognition/VideoObjetRecognition";
 
 function App() {
   return (
@@ -13,6 +14,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/border-detection" element={<BorderDetection />} />
+          <Route path="/video-object-detection-recognition" element={<VideoObjetRecognition />} />
+
+          
           {/* Add more routes here for future functionalities */}
         </Routes>
       </div>

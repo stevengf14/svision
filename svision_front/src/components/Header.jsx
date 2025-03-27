@@ -1,5 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {
+  BORDER_DETECTION_TITLE,
+  HOME_TITLE,
+  OBJECT_DETECTION_TITLE,
+} from "./Constants";
 
 const Header = () => {
   return (
@@ -26,10 +31,16 @@ const Header = () => {
         <div className="navbar-start">
           {/* Enlaces de navegación */}
           <Link className="navbar-item" to="/">
-            Home
+            {HOME_TITLE}
           </Link>
           <Link className="navbar-item" to="/border-detection">
-            Border Detection
+            {BORDER_DETECTION_TITLE}
+          </Link>
+          <Link
+            className="navbar-item"
+            to="/video-object-detection-recognition"
+          >
+            {OBJECT_DETECTION_TITLE}
           </Link>
           {/* Agrega más enlaces aquí para futuras funcionalidades */}
         </div>

@@ -1,0 +1,6 @@
+export const START_VIDEO = "Start Video"
+export const STOP_VIDEO = "Stop Video"
+export const SELECT_TITLE = "Select an object:"
+export const OBJECT_DETECTION_TITLE = "Object Recognition"
+export const BORDER_DETECTION_TITLE = "Border Detection"
+export const HOME_TITLE = "Home"
