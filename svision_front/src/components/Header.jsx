@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import {
   BORDER_DETECTION_TITLE,
+  FACE_DETECTION_TITLE,
   HOME_TITLE,
   OBJECT_DETECTION_TITLE,
 } from "./Constants";
@@ -38,9 +39,15 @@ const Header = () => {
           </Link>
           <Link
             className="navbar-item"
-            to="/video-object-detection-recognition"
+            to="/object-detection"
           >
             {OBJECT_DETECTION_TITLE}
+          </Link>
+          <Link
+            className="navbar-item"
+            to="/face-detection"
+          >
+            {FACE_DETECTION_TITLE}
           </Link>
           {/* Agrega más enlaces aquí para futuras funcionalidades */}
         </div>
