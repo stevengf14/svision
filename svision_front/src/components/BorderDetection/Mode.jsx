@@ -15,7 +15,7 @@ const Mode = ({ mode, setMode }) => {
               checked={mode === "object"}
               onChange={() => setMode("object")}
             />
-            <span style={{ marginLeft: "5px" }}>Objecto</span>
+            <span style={{ marginLeft: "5px" }}>Object</span>
           </label>
         </div>
         <div className="radio">
@@ -27,7 +27,7 @@ const Mode = ({ mode, setMode }) => {
               checked={mode === "background"}
               onChange={() => setMode("background")}
             />
-            <span style={{ marginLeft: "5px" }}>Fodo</span>
+            <span style={{ marginLeft: "5px" }}>Background</span>
           </label>
         </div>
       </div>

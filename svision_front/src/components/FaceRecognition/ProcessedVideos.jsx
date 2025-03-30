@@ -10,7 +10,7 @@ const ProcessedVideos = ({ isVideoProcess, display, isLoading }) => {
   useEffect(() => {
     if (isVideoProcess) {
       console.log("dnasda");
-      setVideoUrl("http://127.0.0.1:5000/video_feed");
+      setVideoUrl("http://127.0.0.1:5002/video_feed");
     } else {
       console.log("nononono");
       setVideoUrl("");

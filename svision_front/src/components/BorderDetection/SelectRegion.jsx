@@ -154,7 +154,7 @@ const SelectRegion = ({ image, onRegionSelected }) => {
       <div className="field" style={{ marginBottom: "20px" }}>
         <label className="label">Selecciona una forma:</label>
         <div className="control">
-          <label className="radio">
+          <label className="radio pr-4">
             <input
               type="radio"
               value="rect"
@@ -163,7 +163,7 @@ const SelectRegion = ({ image, onRegionSelected }) => {
             />
             Rectángulo
           </label>
-          <label className="radio">
+          <label className="radio pr-4">
             <input
               type="radio"
               value="circle"

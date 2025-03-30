@@ -6,7 +6,9 @@ from flask_cors import CORS
 # Cargar el modelo YOLOv8 preentrenado
 modelo = YOLO("yolov8m.pt")
 app = Flask(__name__)
-CORS(app)
+#CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
+
 selected_option = "person"
 
 # Variables universales
@@ -103,4 +105,4 @@ def set_object():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
