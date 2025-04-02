@@ -1,0 +1,65 @@
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import ClipLoader from "react-spinners/ClipLoader";
+import travolta from "utils/travolta.gif";
+import { LOADING_VIDEO, NO_VIDEO_PROCESSED, PROCESSED_VIDEO } from "utils/Constants";
+
+const FaceProcessedVideos = ({ isVideoProcess, display, isLoading }) => {
+  const [videoUrl, setVideoUrl] = useState("");
+  const color = "#ffffff";
+
+  useEffect(() => {
+    if (isVideoProcess) {
+      console.log("dnasda");
+      setVideoUrl("http://127.0.0.1:5002/video_feed");
+    } else {
+      console.log("nononono");
+      setVideoUrl("");
+    }
+  }, [isVideoProcess]);
+
+  return (
+    <div>
+      <div className="box has-background-black">
+        <h3 className="title is-4 has-text-primary">{PROCESSED_VIDEO}</h3>
+        <div className=" mt-2">
+          <div id="video_container" style={{ display }}>
+            <figure style={{ border: "1px solid #00d1b2", padding: "10px"}}>
+              <img id="video_feed" src={videoUrl} alt="Processed Video" />
+            </figure>
+          </div>
+          {isLoading && (
+            <div className="card-content is-flex is-justify-content-center is-align-items-center is-flex-direction-column">
+            <ClipLoader
+              color={color}
+              loading={isLoading}
+              size={150}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+            <p className="has-text-light mt-3">{LOADING_VIDEO}</p>
+          </div>
+          )}
+          {!(isVideoProcess || isLoading) && (
+            <div className="is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
+              <img id="video_feed" src={travolta} width="90%" />
+              <p className="has-text-light mt-3">{NO_VIDEO_PROCESSED}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+FaceProcessedVideos.propTypes = {
+  isVideoProcess: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+};
+
+FaceProcessedVideos.defaultProps = {
+  isVideoProcess: false,
+  isLoading: false,
+};
+
+export default FaceProcessedVideos;

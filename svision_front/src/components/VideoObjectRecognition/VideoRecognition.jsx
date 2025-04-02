@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import ProcessedVideos from "./ProcessedVideos";
-import "./style.css";
+import "utils/global.css";
 import videoDetection from "../../services/videoObjectService";
 import Select from "react-select";
 import { objectArray } from "./names.ts";
-import ClipLoader from "react-spinners/ClipLoader";
-import { SELECT_TITLE, START_VIDEO, STOP_VIDEO } from "../Constants.jsx";
-import SideBar from "./Sidebar.jsx";
+import { OBJECT_DETECTION, OPERATION_LABEL, SELECT_TITLE } from "utils/Constants.jsx";
+import SideBar from "components/common/Sidebar";
+import ActionButton from "components/common/ActionButton";
 
 const VideoRecognition = () => {
   const [isCapturing, setIsCapturing] = useState(false);
@@ -55,7 +55,7 @@ const VideoRecognition = () => {
           <div className="card">
             <div className="card-header has-background-primary">
               <p className="card-header-title has-text-white">
-                <i className="fas mr-2"></i> Operations
+                <i className="fas mr-2"></i> {OPERATION_LABEL}
               </p>
             </div>
             <div className="card-content">
@@ -86,41 +86,16 @@ const VideoRecognition = () => {
                 </div>
               </div>
               {/* Botones de control */}
-              <div className="columns mt-2 mb-2 is-centered">
-
-                <div className="field is-flex is-align-items-center">
-                  <button
-                    className="button is-info mr-3"
-                    onClick={startCapture}
-                    disabled={isCapturing || isLoading}
-                  >
-                    {isLoading ? (
-                      <ClipLoader
-                        color={"#ffffff"}
-                        loading={isLoading}
-                        size={20}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
-                        className="mr-2"
-                      />
-                    ) : (
-                      <i className="fas fa-play mr-2" />
-                    )}
-                    {START_VIDEO}
-                  </button>
-                  <button
-                    className="button is-danger"
-                    onClick={stopCapture}
-                    disabled={!isCapturing}
-                  >
-                    <i className="fas fa-stop mr-2" /> {STOP_VIDEO}
-                  </button>
-                </div>
-              </div>
+              <ActionButton
+                isCapturing={isCapturing}
+                isLoading={isLoading}
+                startCapture={startCapture}
+                stopCapture={stopCapture}
+              />
             </div>
           </div>
           {/* Tarjeta de Información */}
-          <SideBar />
+          <SideBar view={OBJECT_DETECTION}/>
         </div>
       </div>
     </div>
