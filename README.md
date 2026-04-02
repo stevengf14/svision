@@ -15,11 +15,11 @@
 
 ---
 
-## 🚀 Overview
+## Overview
 
 **SVision** bridges the gap between complex AI logic and user-friendly interfaces. Built with a React frontend and a microservice-oriented Python backend, this application empowers users to seamlessly process images and videos using state-of-the-art Computer Vision models. Whether it's enhancing image quality with Real-ESRGAN, detecting faces in real-time streams, or tracing complex borders instantly, SVision packages enterprise-grade AI into an accessible web platform.
 
-## ✨ Key Features
+## Key Features
 
 - **Real-Time Video Object & Face Recognition:** Utilizes YOLO architectures to process webcam or IP streams on the fly with remarkably low latency.
 - **Dynamic Face Embedding Training:** Add new individuals directly from the UI, generating and injecting facial embeddings live without stopping the service.
@@ -27,7 +27,7 @@
 - **AI Upscaling Engine:** Integration with Real-ESRGAN upscales lower-resolution media significantly enhancing fidelity.
 - **Modern Glassmorphism UI:** A sleek, premium dark mode interface designed for optimal UX and responsiveness.
 
-## 💻 Tech Stack
+## Tech Stack
 
 ### Frontend
 - **React 19 & Redux Toolkit** - State management and reactivity.
@@ -46,7 +46,7 @@
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 | Dashboard & Home | Face Embedding Training | Real-Time Object Detection | AI Image Enhancer |
 | :---: | :---: | :---: | :---: |
@@ -56,7 +56,7 @@
 
 ---
 
-## 🛠️ Setup & Installation
+## Setup & Installation
 
 ### Prerequisites
 - Node.js (v18+) and npm/yarn
