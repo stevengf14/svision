@@ -13,7 +13,7 @@ def insert_person(person_id, name, embedding, cover_image=None):
     document = {
         "id": person_id,
         "name": name,
-        "embedding": {"1": embedding},  # Guardar el primer embedding con índice "1"
+        "embedding": {"1": embedding},  # Save the first embedding with index "1"
         "cover_image": cover_image
     }
     collection.insert_one(document)
@@ -38,7 +38,7 @@ def update_person(person_id, name=None, embedding=None, cover_image=None):
         # Obtener el índice del próximo embedding
         embedding_index = str(len(person.get("embedding", {})) + 1)
 
-        # Agregar el nuevo embedding al objeto "embedding"
+        # Add the new embedding to the "embedding" object
         collection.update_one(
             {"id": person_id},
             {"$set": {f"embedding.{embedding_index}": embedding}}
@@ -99,7 +99,7 @@ def get_by_id(person_id):
 
 def get_cover_image(person_id):
     """
-    Devuelve la imagen de portada de una persona por su ID.
+    Returns the cover image of a person by their ID.
     """
     collection = db["known_faces"]
     person = collection.find_one({"id": person_id}, {"_id": 0, "cover_image": 1})

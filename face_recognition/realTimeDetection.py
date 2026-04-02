@@ -130,7 +130,7 @@ def process_face(face, frame):
         print(f"Mejor coincidencia: {best_match_name} con distancia {best_match_distance}")
         return (x_orig, y_orig, w_orig, h_orig, best_match_name)
     except Exception as e:
-        print(f"Error al procesar el rostro: {e}")
+        print(f"Error processing face: {e}")
         return None
 
 
@@ -208,9 +208,9 @@ def add_person_endpoint():
     image = request.files.get('image')
 
     if not person_id or not name or not image:
-        return jsonify({"error": "Faltan datos (person_id, name o imagen)."}), 400
+        return jsonify({"error": "Missing data (person_id, name, or image)."}), 400
 
-    # Procesar la imagen y generar el embedding
+    # Process image and generate embedding
     img = cv2.imdecode(np.frombuffer(image.read(), np.uint8), cv2.IMREAD_COLOR)
     embedding = generate_embedding(img)
 
@@ -220,7 +220,7 @@ def add_person_endpoint():
     # Insertar la persona en la base de datos
     try:
         insert_person(int(person_id), name, embedding.tolist())
-        return jsonify({"message": "Persona agregada con éxito."})
+        return jsonify({"message": "Person successfully added."})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -233,9 +233,9 @@ def add_embedding_endpoint():
     image = request.files.get('image')
 
     if not person_id or not image:
-        return jsonify({"error": "Faltan datos (person_id o imagen)."}), 400
+        return jsonify({"error": "Missing data (person_id or image)."}), 400
 
-    # Procesar la imagen y generar el embedding
+    # Process image and generate embedding
     img = cv2.imdecode(np.frombuffer(image.read(), np.uint8), cv2.IMREAD_COLOR)
     embedding = generate_embedding(img)
 
@@ -245,7 +245,7 @@ def add_embedding_endpoint():
     # Actualizar la persona con el nuevo embedding
     try:
         update_person(int(person_id), embedding=embedding.tolist())
-        return jsonify({"message": "Embedding agregado con éxito."})
+        return jsonify({"message": "Embedding successfully added."})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -273,7 +273,7 @@ def delete_person_endpoint():
 
     try:
         delete_person(int(person_id))
-        return jsonify({"message": "Persona eliminada con éxito."})
+        return jsonify({"message": "Person successfully deleted."})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

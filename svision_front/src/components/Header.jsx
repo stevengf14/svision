@@ -5,6 +5,7 @@ import {
   FACE_DETECTION_TITLE,
   HOME_TITLE,
   OBJECT_DETECTION_TITLE,
+  IMAGE_ENHANCEMENT_TITLE,
 } from "./Constants";
 
 const Header = () => {
@@ -48,6 +49,12 @@ const Header = () => {
             to="/face-detection"
           >
             {FACE_DETECTION_TITLE}
+          </Link>
+          <Link
+            className="navbar-item"
+            to="/image-enhancement"
+          >
+            {IMAGE_ENHANCEMENT_TITLE}
           </Link>
           {/* Agrega más enlaces aquí para futuras funcionalidades */}
         </div>

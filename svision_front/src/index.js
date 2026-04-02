@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import App from "./App";
 import "bulma/css/bulma.min.css";
 import "bulma-prefers-dark/css/bulma-prefers-dark.min.css";
+import "./global.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

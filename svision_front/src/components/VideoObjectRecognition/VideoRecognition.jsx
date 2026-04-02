@@ -28,7 +28,7 @@ const VideoRecognition = () => {
     const res = await videoDetection.stopCapture();
   };
 
-  // Seleccionar el objeto a detectar
+  // Select the object to detect
   const selectObjectAction = async (object) => {
     await videoDetection.setObject(object);
   };

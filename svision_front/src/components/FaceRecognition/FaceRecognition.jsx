@@ -15,22 +15,22 @@ const FaceRecognition = () => {
   const [newPerson, setNewPerson] = useState({ id: "", name: "", image: null });
   const [showAddPersonForm, setShowAddPersonForm] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null); // Para mostrar la miniatura de la imagen
+  const [imagePreview, setImagePreview] = useState(null); // To show the image thumbnail
   const [showTrainPerson, setShowTrainPerson] = useState(false); // Controlar la ventana de entrenamiento
 
-  // Cargar nombres desde la base de datos
+  // Load names from the database
   const loadNames = async () => {
     try {
       const res = await faceRecognitionService.getAllNames();
       if (res.status === "success") {
-        setNames(Array.isArray(res.data) ? res.data : []); // Asegurarse de que `names` sea un array
+        setNames(Array.isArray(res.data) ? res.data : []); // Ensure names is an array
       } else {
-        console.error("Error al cargar los nombres:", res.message);
-        setNames([]); // Asegurarse de que `names` sea un array vacío en caso de error
+        console.error("Error loading names:", res.message);
+        setNames([]); // Default to empty array on error
       }
     } catch (error) {
-      console.error("Error al cargar los nombres:", error);
-      setNames([]); // Asegurarse de que `names` sea un array vacío en caso de error
+      console.error("Error loading names:", error);
+      setNames([]); // Default to empty array on error
     }
   };
 
@@ -52,7 +52,7 @@ const FaceRecognition = () => {
     await faceRecognitionService.stopCapture();
   };
 
-  // Agregar una nueva persona
+  // Add a new person
   const addPerson = async () => {
     const formData = new FormData();
     formData.append("person_id", newPerson.id);
@@ -60,17 +60,17 @@ const FaceRecognition = () => {
     formData.append("image", newPerson.image);
     await faceRecognitionService.addPerson(formData);
     setNewPerson({ id: "", name: "", image: null });
-    setImagePreview(null); // Limpiar la miniatura
+    setImagePreview(null); // Clear thumbnail
     setShowAddPersonForm(false);
-    loadNames(); // Recargar la lista de personas
+    loadNames(); // Reload the list of people
   };
 
-  // Manejar la selección de la imagen
+  // Handle image selection
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setNewPerson({ ...newPerson, image: file });
-      setImagePreview(URL.createObjectURL(file)); // Crear una URL para mostrar la miniatura
+      setImagePreview(URL.createObjectURL(file)); // Create a URL to show the thumbnail
     }
   };
 
@@ -102,7 +102,7 @@ const FaceRecognition = () => {
                 className="button is-success mt-2"
                 onClick={() => setShowAddPersonForm(!showAddPersonForm)}
               >
-                {showAddPersonForm ? "Cancelar" : "Ingresar Persona"}
+                {showAddPersonForm ? "Cancel" : "Add Person"}
               </button>
               {showAddPersonForm && (
                 <div className="mt-4">
@@ -119,11 +119,11 @@ const FaceRecognition = () => {
                     />
                   </div>
                   <div className="field">
-                    <label className="label has-text-white">Nombre</label>
+                    <label className="label has-text-white">Name</label>
                     <input
                       className="input"
                       type="text"
-                      placeholder="Nombre"
+                      placeholder="Name"
                       value={newPerson.name}
                       onChange={(e) =>
                         setNewPerson({ ...newPerson, name: e.target.value })
@@ -131,7 +131,7 @@ const FaceRecognition = () => {
                     />
                   </div>
                   <div className="field">
-                    <label className="label has-text-white">Foto</label>
+                    <label className="label has-text-white">Photo</label>
                     <div className="file has-name is-boxed">
                       <label className="file-label">
                         <input
@@ -144,7 +144,7 @@ const FaceRecognition = () => {
                           <span className="file-icon">
                             <i className="fas fa-upload"></i>
                           </span>
-                          <span className="file-label">Seleccionar Imagen</span>
+                          <span className="file-label">Select Image</span>
                         </span>
                       </label>
                     </div>
@@ -159,7 +159,7 @@ const FaceRecognition = () => {
                     onClick={addPerson}
                     disabled={!newPerson.id || !newPerson.name || !newPerson.image}
                   >
-                    Guardar Persona
+                    Save Person
                   </button>
                 </div>
               )}
@@ -194,7 +194,7 @@ const FaceRecognition = () => {
                 </div>
               </div>
               <div className="field">
-                <label className="label has-text-white">Personas Conocidas</label>
+                <label className="label has-text-white">Known People</label>
                 <ul>
                   {Array.isArray(names) && names.length > 0 ? (
                     names.map((person) => (
@@ -211,21 +211,21 @@ const FaceRecognition = () => {
                       </li>
                     ))
                   ) : (
-                    <p className="has-text-light">No hay personas registradas.</p>
+                    <p className="has-text-light">No people registered.</p>
                   )}
                 </ul>
               </div>
               {selectedPerson && (
                 <div className="mt-4">
                   <p>
-                    Persona seleccionada:{" "}
+                    Selected person:{" "}
                     <strong>{selectedPerson.name}</strong>
                   </p>
                   <button
                     className="button is-warning mt-2"
                     onClick={() => setShowTrainPerson(true)}
                   >
-                    Entrenar Algoritmo
+                    Train Algorithm
                   </button>
                 </div>
               )}
@@ -235,12 +235,12 @@ const FaceRecognition = () => {
         </div>
       </div>
 
-      {/* Mostrar el componente de entrenamiento */}
+      {/* Show the training component */}
       {showTrainPerson && selectedPerson && (
         <TrainPerson
           person={selectedPerson}
           onClose={() => setShowTrainPerson(false)}
-          onPersonDeleted={loadNames} // Recargar nombres si se elimina una persona
+          onPersonDeleted={loadNames} // Reload names if a person is deleted
         />
       )}
     </div>

@@ -19,7 +19,7 @@ def scale_videos(carpeta_origen_base, new_width=1920, new_height=1080):
     # Recorre la carpeta 'fx' buscando videos
     for root_folder, _, files in os.walk(source_folder):
         for file in files:
-            # Verifica si el archivo es un video y no tiene ya el sufijo _1080p
+            # Check if file is a video and doesn't have the _1080p suffix yet
             if file.lower().endswith(('.mp4', '.mov', '.avi', '.mkv')) and "_1080p" not in file:
                 print(f"Procesando el video: {file}")
                 video_path = os.path.join(root_folder, file)
@@ -31,7 +31,7 @@ def scale_videos(carpeta_origen_base, new_width=1920, new_height=1080):
                 # Comando FFmpeg para escalar el video a 1080p manteniendo la calidad
                 command = [
                     "ffmpeg",
-                    "-i", video_path,  # Archivo de entrada
+                    "-i", video_path,  # Input file
                     "-vf", f"scale={new_width}:{new_height}",  # Escalar a 1080p
                     "-c:v", "libx264",  # Codec de video
                     "-crf", "18",  # Control de calidad (bajo CRF = mejor calidad)
@@ -45,7 +45,7 @@ def scale_videos(carpeta_origen_base, new_width=1920, new_height=1080):
 
                 # Verifica si hubo un error
                 if result.returncode != 0:
-                    print(f"Error al procesar el video: {file}")
+                    print(f"Error processing video: {file}")
                     print(f"Mensaje de error: {result.stderr}")
                 else:
                     print(f'Video escalado y guardado en: {destination_path}')
