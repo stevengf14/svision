@@ -62,7 +62,7 @@ const Home = () => {
                       className="icon is-large" 
                       style={{ 
                         fontSize: '2rem', 
-                        // Utilizamos fallbacks por si la clase color no aplica en el font
+                        // Fallback colors if the specific font class color is not applied
                         color: feature.colorClass === 'is-primary' ? '#00d2ff' : 
                                feature.colorClass === 'is-info' ? '#4facfe' : 
                                feature.colorClass === 'is-success' ? '#38ef7d' : '#f8b500'

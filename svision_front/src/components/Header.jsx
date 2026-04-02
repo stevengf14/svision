@@ -15,7 +15,7 @@ const Header = () => {
         <Link className="navbar-item" to="/">
           <img src="/assets/images/logo.png" alt="Logo" />
         </Link>
-        {/* Menú hamburguesa para móviles */}
+        {/* Mobile hamburger menu */}
         <a
           role="button"
           className="navbar-burger burger"
@@ -31,7 +31,7 @@ const Header = () => {
 
       <div id="navbarBasicExample" className="navbar-menu">
         <div className="navbar-start">
-          {/* Enlaces de navegación */}
+          {/* Navigation links */}
           <Link className="navbar-item" to="/">
             {HOME_TITLE}
           </Link>
@@ -56,7 +56,7 @@ const Header = () => {
           >
             {IMAGE_ENHANCEMENT_TITLE}
           </Link>
-          {/* Agrega más enlaces aquí para futuras funcionalidades */}
+          {/* Add more links here for future functionalities */}
         </div>
       </div>
     </header>

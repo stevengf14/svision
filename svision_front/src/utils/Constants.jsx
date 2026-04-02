@@ -61,3 +61,5 @@ export const HOME_URL = {
   "Face Recognition": "/face-detection",
   "Border Detection": "/border-detection",
 };
+
+export const IMAGE_ENHANCEMENT_TITLE = "AI Image Enhancer";

@@ -52,7 +52,7 @@ const FaceRecognition = () => {
     loadNames();
   }, []);
 
-  // Iniciar la detección de video
+  // Start video detection
   const startCapture = async () => {
     setIsLoading(true);
     await faceRecognitionService.startCapture();
@@ -60,26 +60,26 @@ const FaceRecognition = () => {
     setIsCapturing(true);
   };
 
-  // Detener la detección de video
+  // Stop video detection
   const stopCapture = async () => {
     setIsCapturing(false);
     await faceRecognitionService.stopCapture();
   };
 
-  // Resetear el formulario de agregar persona
+  // Reset the add person form
   const resetAddPersonForm = () => {
     setNewPerson({ id: "", name: "", image: null });
-    setImagePreview(null); // Limpiar la miniatura
+    setImagePreview(null); // Clear the thumbnail
   };
 
-  // Agregar una nueva persona
+  // Add a new person
   const addPerson = async () => {
     const formData = new FormData();
     formData.append("person_id", newPerson.id);
     formData.append("name", newPerson.name);
     formData.append("image", newPerson.image);
     await faceRecognitionService.addPerson(formData);
-    resetAddPersonForm(); // Resetear el formulario después de agregar
+    resetAddPersonForm(); // Reset the form after submitting
     setShowAddPersonForm(false);
     loadNames(); // Reload the list of people
   };
@@ -93,7 +93,7 @@ const FaceRecognition = () => {
     }
   };
 
-  // Mostrar el video cuando la detección está activa
+  // Show the video when detection is active
   useEffect(() => {
     setDisplay(isCapturing ? "block" : "none");
   }, [isCapturing]);
