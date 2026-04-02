@@ -7,12 +7,13 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import VideoObjetRecognition from "./components/VideoObjectRecognition/VideoObjetRecognition";
 import FaceVideoObjetRecognition from "./components/FaceRecognition/FaceVideoRecognition";
 import ImageEnhancement from "./components/ImageEnhancement/ImageEnhancement";
+import Footer from "./components/common/Footer";
 
 function App() {
   return (
     <Router>
       <Header />
-      <div className="container">
+      <div className="container" style={{ marginBottom: "20px" }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/border-detection" element={<BorderDetection />} />
@@ -23,6 +24,7 @@ function App() {
           {/* Add more routes here for future functionalities */}
         </Routes>
       </div>
+      <Footer />  
     </Router>
   );
 }

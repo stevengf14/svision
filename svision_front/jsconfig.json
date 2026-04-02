@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+      "allowArbitraryExtensions": true,
+      "baseUrl": "./src/",
+      "paths": {
+        "*": ["*"]
+      },
+      "jsx": "react"
+    },
+    "include": ["src/**/*", "src/**/*.js", "src/**/*.jsx"]
+  }

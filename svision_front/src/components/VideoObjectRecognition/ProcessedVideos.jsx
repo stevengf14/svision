@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import ClipLoader from "react-spinners/ClipLoader";
-import comino from "./comino.jpg";
+import comino from "utils/comino.jpg";
+import { LOADING_VIDEO, NO_VIDEO_PROCESSED, PROCESSED_VIDEO } from "utils/Constants";
 
 const ProcessedVideos = ({ isVideoProcess, display, isLoading }) => {
   const [videoUrl, setVideoUrl] = useState("");
@@ -20,7 +21,7 @@ const ProcessedVideos = ({ isVideoProcess, display, isLoading }) => {
   return (
     <div>
       <div className="box has-background-black">
-        <h3 className="title is-4 has-text-primary">Processed Video</h3>
+        <h3 className="title is-4 has-text-primary">{PROCESSED_VIDEO}</h3>
         <div className=" mt-2">
           <div id="video_container" style={{ display }}>
             <figure style={{ border: "1px solid #00d1b2", padding: "10px"}}>
@@ -36,13 +37,13 @@ const ProcessedVideos = ({ isVideoProcess, display, isLoading }) => {
               aria-label="Loading Spinner"
               data-testid="loader"
             />
-            <p className="has-text-light mt-3">Loading camera ...</p>
+            <p className="has-text-light mt-3">{LOADING_VIDEO}</p>
           </div>
           )}
           {!(isVideoProcess || isLoading) && (
             <div className="is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
               <img id="video_feed" src={comino} width="90%" />
-              <p className="has-text-light mt-3">No processed video yet.</p>
+              <p className="has-text-light mt-3">{NO_VIDEO_PROCESSED}</p>
             </div>
           )}
         </div>
