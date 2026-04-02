@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Stage, Layer, Rect, Circle, Line, Image } from "react-konva";
 
 const SelectRegion = ({ image, onRegionSelected }) => {
-  const [shapeType, setShapeType] = useState("rect"); // Forma seleccionada (rectángulo, círculo, polígono)
+  const [shapeType, setShapeType] = useState("rect"); // Selected shape (rectangle, circle, polygon)
   const [drawing, setDrawing] = useState(false);
   const [shapeProps, setShapeProps] = useState({});
   const [points, setPoints] = useState([]);
@@ -12,7 +12,7 @@ const SelectRegion = ({ image, onRegionSelected }) => {
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
   const [originalDimensions, setOriginalDimensions] = useState({ width: 0, height: 0 });
 
-  // Cargar la imagen en un objeto HTMLImageElement para usar con Konva
+  // Load the image into an HTMLImageElement object for use with Konva
   useEffect(() => {
     if (image) {
       const img = new window.Image();
@@ -20,12 +20,12 @@ const SelectRegion = ({ image, onRegionSelected }) => {
       img.onload = () => {
         setKonvaImage(img);
 
-        // Guardar las dimensiones originales de la imagen
+        // Save the original dimensions of the image
         setOriginalDimensions({ width: img.width, height: img.height });
 
-        // Calcular las dimensiones de la imagen para ajustarla al contenedor
-        const maxWidth = 900; // Ancho máximo (igual al de ImageUploader)
-        const maxHeight = 900; // Alto máximo (igual al de ImageUploader)
+        // Calculate image dimensions to fit the container
+        const maxWidth = 900; // Maximum width (same as ImageUploader)
+        const maxHeight = 900; // Maximum height (same as ImageUploader)
         let width = img.width;
         let height = img.height;
 
@@ -45,7 +45,7 @@ const SelectRegion = ({ image, onRegionSelected }) => {
     }
   }, [image]);
 
-  // Función para manejar el inicio del dibujo
+  // Function to handle the start of drawing
   const handleMouseDown = (e) => {
     const stage = stageRef.current;
     const mousePos = stage.getPointerPosition();
@@ -61,7 +61,7 @@ const SelectRegion = ({ image, onRegionSelected }) => {
     setDrawing(true);
   };
 
-  // Función para manejar el movimiento del mouse (para dibujar la forma)
+  // Function to handle mouse movement (to draw the shape)
   const handleMouseMove = (e) => {
     if (!drawing) return;
     const stage = stageRef.current;
@@ -84,11 +84,11 @@ const SelectRegion = ({ image, onRegionSelected }) => {
     }
   };
 
-  // Función para manejar cuando se termina de dibujar la forma
+  // Function to handle when drawing the shape is finished
   const handleMouseUp = () => {
     setDrawing(false);
 
-    // Ajustar las coordenadas de la región seleccionada a las dimensiones originales de la imagen
+    // Adjust the coordinates of the selected region to the original dimensions of the image
     const scaleX = originalDimensions.width / imageDimensions.width;
     const scaleY = originalDimensions.height / imageDimensions.height;
 
@@ -104,10 +104,10 @@ const SelectRegion = ({ image, onRegionSelected }) => {
       return index % 2 === 0 ? point * scaleX : point * scaleY;
     });
 
-    onRegionSelected(shapeType, adjustedShapeProps, adjustedPoints); // Enviar al padre
+    onRegionSelected(shapeType, adjustedShapeProps, adjustedPoints); // Send to parent
   };
 
-  // Dibujar la forma seleccionada
+  // Draw the selected shape
   const drawShape = () => {
     switch (shapeType) {
       case "rect":
@@ -150,27 +150,27 @@ const SelectRegion = ({ image, onRegionSelected }) => {
 
   return (
     <div className="box" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-      {/* Radio para seleccionar la forma */}
+      {/* Radio for selecting the shape */}
       <div className="field" style={{ marginBottom: "20px" }}>
-        <label className="label">Selecciona una forma:</label>
+        <label className="label">Select a shape:</label>
         <div className="control">
-          <label className="radio">
+          <label className="radio pr-4">
             <input
               type="radio"
               value="rect"
               checked={shapeType === "rect"}
               onChange={() => setShapeType("rect")}
             />
-            Rectángulo
+            Rectangle
           </label>
-          <label className="radio">
+          <label className="radio pr-4">
             <input
               type="radio"
               value="circle"
               checked={shapeType === "circle"}
               onChange={() => setShapeType("circle")}
             />
-            Círculo
+            Circle
           </label>
           <label className="radio">
             <input
@@ -179,12 +179,12 @@ const SelectRegion = ({ image, onRegionSelected }) => {
               checked={shapeType === "polygon"}
               onChange={() => setShapeType("polygon")}
             />
-            Polígono
+            Polygon
           </label>
         </div>
       </div>
 
-      {/* Lienzo para la imagen y las formas */}
+      {/* Canvas for the image and shapes */}
       <Stage
         width={imageDimensions.width}
         height={imageDimensions.height}

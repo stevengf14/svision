@@ -1,2 +1,4 @@
 face_recognition/yolov*.pt
 face_recognition/people/*/*.jpg
+video_object_recognition/.idea
+.idea

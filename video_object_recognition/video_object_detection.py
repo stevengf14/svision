@@ -6,7 +6,9 @@ from flask_cors import CORS
 # Cargar el modelo YOLOv8 preentrenado
 modelo = YOLO("yolov8m.pt")
 app = Flask(__name__)
-CORS(app)
+#CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
+
 selected_option = "person"
 
 # Variables universales
@@ -28,7 +30,7 @@ def detect_video():
         # Obtener dimensiones del frame
         altura, ancho, _ = frame.shape
 
-        # Procesar el fotograma y detectar objetos
+        # Process frame and detect objects
         resultados = modelo(frame)
 
         # Dibujar las detecciones en el fotograma
@@ -48,7 +50,7 @@ def detect_video():
                     cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
                     cv2.putText(frame, etiqueta, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
 
-        # Codificar la imagen en formato JPEG para enviarla como stream
+        # Encode image in JPEG format to send as stream
         _, buffer = cv2.imencode('.jpg', frame)
         frame_bytes = buffer.tobytes()
 
@@ -103,4 +105,4 @@ def set_object():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
